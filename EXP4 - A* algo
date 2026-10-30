@@ -1,0 +1,284 @@
+EXPERIMENT NO. 4
+
+AIM
+
+To implement an informed search technique using the A* (A-Star) algorithm to reach a goal state.
+
+CODE
+
+PROGRAM 1: A* ALGORITHM FOR GRAPH SEARCH
+
+def heuristic(node):
+h = {
+'A': 11,
+'B': 6,
+'C': 99,
+'D': 1,
+'E': 7,
+'G': 0
+}
+return h.get(node, float('inf'))
+
+graph = {
+'A': [('B', 2), ('E', 3)],
+'B': [('C', 1), ('G', 9)],
+'C': [],
+'E': [('D', 6)],
+'D': [('G', 1)],
+'G': []
+}
+
+def astar(start, goal):
+open_set = {start}
+closed_set = set()
+g = {start: 0}
+parents = {start: None}
+
+```
+while open_set:
+    current = min(
+        open_set,
+        key=lambda x: g[x] + heuristic(x)
+    )
+
+    if current == goal:
+        path = []
+
+        while current is not None:
+            path.append(current)
+            current = parents[current]
+
+        path.reverse()
+
+        print("Shortest path:", path)
+        print("Total cost:", g[goal])
+        return
+
+    open_set.remove(current)
+    closed_set.add(current)
+
+    neighbors = graph.get(current, [])
+
+    for neighbor, cost in neighbors:
+        if neighbor in closed_set:
+            continue
+
+        new_cost = g[current] + cost
+
+        if neighbor not in open_set or new_cost < g.get(neighbor, float('inf')):
+            g[neighbor] = new_cost
+            parents[neighbor] = current
+            open_set.add(neighbor)
+
+print("No path found.")
+```
+
+astar('A', 'G')
+
+PROGRAM 2: A* ALGORITHM FOR THE 8-PUZZLE PROBLEM
+
+def h(state, goal):
+# Calculate Manhattan distance
+distance = 0
+
+```
+for i in range(9):
+    if state[i] != 0:
+        j = goal.index(state[i])
+
+        distance += abs(i // 3 - j // 3)
+        distance += abs(i % 3 - j % 3)
+
+return distance
+```
+
+def get_neighbors(state):
+neighbors = []
+
+```
+zero = state.index(0)
+row = zero // 3
+col = zero % 3
+
+moves = [(-1, 0), (1, 0), (0, -1), (0, 1)]
+
+for dr, dc in moves:
+    r = row + dr
+    c = col + dc
+
+    if 0 <= r < 3 and 0 <= c < 3:
+        new = state[:]
+        new_zero = r * 3 + c
+
+        new[zero], new[new_zero] = new[new_zero], new[zero]
+
+        neighbors.append(new)
+
+return neighbors
+```
+
+def astar(start, goal):
+open_list = [(h(start, goal), 0, start, [start])]
+visited = []
+
+```
+while open_list:
+    open_list.sort()
+    f, g, state, path = open_list.pop(0)
+
+    if state == goal:
+        return path
+
+    if state in visited:
+        continue
+
+    visited.append(state)
+
+    for neighbor in get_neighbors(state):
+        if neighbor not in visited:
+            new_g = g + 1
+            new_f = new_g + h(neighbor, goal)
+
+            open_list.append(
+                (new_f, new_g, neighbor, path + [neighbor])
+            )
+
+return None
+```
+
+# Initial state
+
+start = [
+1, 2, 3,
+4, 0, 6,
+7, 5, 8
+]
+
+# Goal state
+
+goal = [
+1, 2, 3,
+4, 5, 6,
+7, 8, 0
+]
+
+path = astar(start, goal)
+
+# Print solution
+
+if path:
+for step in path:
+print(step[0:3])
+print(step[3:6])
+print(step[6:9])
+print()
+else:
+print("No solution found.")
+
+THEORY
+
+1. INFORMED SEARCH
+
+Informed search is a search technique used in Artificial Intelligence to find a path from an initial state to a goal state by using additional information about the problem.
+
+Unlike uninformed search algorithms such as BFS and DFS, informed search uses a heuristic function to estimate how close a particular state is to the goal. This information helps the algorithm choose promising paths and reduce unnecessary exploration.
+
+A heuristic function, represented by h(n), estimates the remaining cost from the current node n to the goal state.
+
+Examples of informed search algorithms include A* search, Greedy Best-First Search, and Hill Climbing.
+
+2. A* SEARCH ALGORITHM
+
+A* (A-Star) is an informed search algorithm that finds a low-cost path from a starting node to a goal node. It combines the actual cost of reaching a node with the estimated cost of reaching the goal.
+
+A* uses the following evaluation function:
+
+f(n) = g(n) + h(n)
+
+Where:
+
+* f(n): Estimated total cost of the path through node n.
+* g(n): Actual cost from the starting node to node n.
+* h(n): Estimated cost from node n to the goal.
+
+The algorithm selects the node with the smallest f(n) value for exploration.
+
+Working of A*:
+
+1. Initialize the starting node and add it to the open set.
+2. Calculate the evaluation function f(n) for available nodes.
+3. Select the node with the lowest f(n) value.
+4. If the selected node is the goal, reconstruct and return the path.
+5. Otherwise, move the selected node to the closed set.
+6. Examine its neighboring nodes and calculate their new path costs.
+7. Update the costs and parent information whenever a better path is found.
+8. Repeat until the goal is reached or no path remains to explore.
+
+The open set contains nodes waiting to be explored, while the closed set contains nodes that have already been explored.
+
+Advantages of A*:
+
+* Uses heuristic information to guide the search.
+* Can find an optimal path when the heuristic and implementation satisfy the required conditions.
+* Often explores fewer nodes than uninformed search algorithms.
+
+Limitations of A*:
+
+* Can consume considerable memory.
+* Performance depends on the quality of the heuristic.
+* May explore many nodes when the heuristic provides little useful guidance.
+
+3. A* ALGORITHM FOR GRAPH SEARCH
+
+In graph search, nodes represent states and edges represent connections between states. Each edge has an associated cost.
+
+In this experiment, node A is the starting state and node G is the goal state. The algorithm uses the edge costs and heuristic values to determine the best path.
+
+The graph contains the following connections:
+
+A → B (cost 2)
+A → E (cost 3)
+B → C (cost 1)
+B → G (cost 9)
+E → D (cost 6)
+D → G (cost 1)
+
+The A* algorithm compares possible paths using f(n) = g(n) + h(n).
+
+For the given graph, the selected path is:
+
+A → E → D → G
+
+Total cost = 3 + 6 + 1 = 10.
+
+4. A* ALGORITHM FOR THE 8-PUZZLE PROBLEM
+
+The 8-puzzle is a problem consisting of a 3 × 3 board containing eight numbered tiles and one blank space. The objective is to transform an initial arrangement into a specified goal arrangement by moving tiles into the blank space.
+
+In this experiment, the A* algorithm is used to find a sequence of moves from the initial state to the goal state.
+
+The heuristic used is Manhattan distance.
+
+Manhattan Distance:
+
+It is the sum of the horizontal and vertical distances of each numbered tile from its correct goal position. The blank tile, represented by 0, is excluded from the calculation.
+
+For a tile, the Manhattan distance is:
+
+Distance = |Current Row - Goal Row| + |Current Column - Goal Column|
+
+The total heuristic value is the sum of these distances for all numbered tiles.
+
+The algorithm generates neighboring states by moving the blank space up, down, left, or right whenever the move is valid.
+
+It then evaluates each state using:
+
+f(n) = g(n) + h(n)
+
+Here, g(n) represents the number of moves made so far, and h(n) represents the Manhattan distance to the goal.
+
+The algorithm continues exploring states until the goal arrangement is reached and prints the sequence of board configurations.
+
+CONCLUSION
+
+Thus, the A* informed search algorithm was implemented for graph search and the 8-puzzle problem. The algorithm uses the evaluation function f(n) = g(n) + h(n) to select promising states. The graph-search implementation finds a path from A to G with a total cost of 10, while the 8-puzzle implementation uses Manhattan distance to guide the search toward the goal state.
