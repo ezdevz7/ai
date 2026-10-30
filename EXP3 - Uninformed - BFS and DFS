@@ -1,0 +1,223 @@
+EXPERIMENT NO. 3
+
+AIM
+
+To implement uninformed search algorithms (Breadth-First Search and Depth-First Search) to reach a goal state.
+
+CODE
+
+1. DEPTH-FIRST SEARCH (DFS)
+
+def dfs(graph, start, goal):
+stack = [[start]]
+visited = set()
+
+```
+while stack:
+    path = stack.pop()
+    node = path[-1]
+
+    if node == goal:
+        return path
+
+    if node not in visited:
+        visited.add(node)
+
+        for neighbor in reversed(graph.get(node, [])):
+            if neighbor not in visited:
+                stack.append(path + [neighbor])
+
+return None
+```
+
+graph = {
+'A': ['B', 'C'],
+'B': ['D', 'E'],
+'C': ['F'],
+'D': [],
+'E': ['F'],
+'F': []
+}
+
+start_node_dfs = 'A'
+goal_node_dfs = 'F'
+
+path_dfs = dfs(graph, start_node_dfs, goal_node_dfs)
+
+if path_dfs:
+print(f"Path from {start_node_dfs} to {goal_node_dfs} (DFS): {path_dfs}")
+else:
+print(f"No path found from {start_node_dfs} to {goal_node_dfs} (DFS).")
+
+2. BREADTH-FIRST SEARCH (BFS)
+
+from collections import deque
+
+def bfs(graph, start, goal):
+queue = deque([[start]])
+visited = set([start])
+
+```
+while queue:
+    path = queue.popleft()
+    node = path[-1]
+
+    if node == goal:
+        return path
+
+    for neighbor in graph.get(node, []):
+        if neighbor not in visited:
+            visited.add(neighbor)
+            queue.append(path + [neighbor])
+
+return None
+```
+
+graph = {
+'A': ['B', 'C'],
+'B': ['D', 'E'],
+'C': ['F'],
+'D': [],
+'E': ['F'],
+'F': []
+}
+
+start_node = 'A'
+goal_node = 'F'
+
+path = bfs(graph, start_node, goal_node)
+
+if path:
+print(f"Shortest path from {start_node} to {goal_node}: {path}")
+else:
+print(f"No path found from {start_node} to {goal_node}.")
+
+
+              A
+             / \
+            B   C
+           / \   \
+          D   E   F
+               \
+                F
+
+
+Note: In the code, the edges are:
+
+A → B, C
+B → D, E
+C → F
+E → F
+
+Start Node: A
+Goal Node: F
+
+DFS Path: A → B → E → F
+BFS Path: A → C → F
+
+
+THEORY
+
+1. UNINFORMED SEARCH
+
+Uninformed search is a search technique used in Artificial Intelligence to find a path from an initial state to a goal state without using additional information about the goal's location or distance.
+
+It uses the available information about the problem, such as the initial state, possible actions, and goal state, to explore the search space. Unlike informed search, it does not use heuristic functions to estimate how close a state is to the goal.
+
+The main components of uninformed search are:
+
+* Initial State: The state from which the search begins.
+* Goal State: The desired state that the algorithm attempts to reach.
+* Successor States: The states that can be reached from the current state.
+* Search Strategy: The method used to determine which state to explore next.
+
+Depth-First Search (DFS) and Breadth-First Search (BFS) are two important uninformed search algorithms.
+
+2. DEPTH-FIRST SEARCH (DFS)
+
+Depth-First Search is an uninformed search algorithm that explores one branch of a search tree as deeply as possible before returning to explore other branches.
+
+DFS uses a stack data structure that follows the Last In, First Out (LIFO) principle. The most recently added path is explored first.
+
+Working of DFS:
+
+1. Start from the initial node.
+2. Push the initial path onto the stack.
+3. Remove the most recently added path from the stack.
+4. Check whether the last node of the path is the goal.
+5. If the goal is found, return the path.
+6. Otherwise, mark the node as visited and add its unvisited neighbors to the stack.
+7. Repeat until the goal is found or the stack becomes empty.
+
+In this experiment, DFS starts from node A and searches for node F. It explores one branch before backtracking to explore other available branches.
+
+Advantages:
+
+* Can find a solution without exploring every node.
+* Often requires less memory than BFS.
+* Useful for exploring deep search spaces.
+
+Limitations:
+
+* Does not guarantee the shortest path.
+* May explore an unnecessarily deep branch.
+* Requires cycle detection to avoid repeatedly exploring cyclic paths.
+
+Applications:
+DFS is used in maze exploration, graph traversal, cycle detection, and backtracking problems.
+
+3. BREADTH-FIRST SEARCH (BFS)
+
+Breadth-First Search is an uninformed search algorithm that explores nodes level by level. It visits all immediate neighbors of a node before exploring nodes at the next level.
+
+BFS uses a queue data structure that follows the First In, First Out (FIFO) principle. The earliest added path is explored first.
+
+Working of BFS:
+
+1. Start from the initial node.
+2. Insert the initial path into the queue.
+3. Remove the oldest path from the front of the queue.
+4. Check whether the last node of the path is the goal.
+5. If the goal is found, return the path.
+6. Otherwise, mark each unvisited neighbor as visited and add the extended path to the queue.
+7. Repeat until the goal is found or the queue becomes empty.
+
+In this experiment, BFS starts from node A and searches for node F. It explores nodes at each level before moving to the next level.
+
+Advantages:
+
+* Finds the shortest path in an unweighted graph.
+* Explores nearby states before distant states.
+* Is complete for finite graphs when implemented with proper visited-state tracking.
+
+Limitations:
+
+* Requires more memory because it stores paths awaiting exploration.
+* Can become expensive when the graph contains many nodes.
+* Does not guarantee the minimum-cost path when edges have different costs.
+
+Applications:
+BFS is used in shortest-path problems on unweighted graphs, social network analysis, web crawling, and network traversal.
+
+4. DIFFERENCE BETWEEN DFS AND BFS
+
+DFS:
+
+* Uses a stack.
+* Follows the LIFO principle.
+* Explores nodes depth-wise.
+* Does not guarantee the shortest path.
+* Often requires less memory than BFS.
+
+BFS:
+
+* Uses a queue.
+* Follows the FIFO principle.
+* Explores nodes level-wise.
+* Finds the shortest path in an unweighted graph.
+* May require more memory than DFS.
+
+CONCLUSION
+
+Thus, Depth-First Search (DFS) and Breadth-First Search (BFS) were implemented to find a goal state in a graph. DFS uses a stack to explore nodes depth-wise, whereas BFS uses a queue to explore nodes level-wise. BFS finds the shortest path in an unweighted graph, while DFS does not guarantee the shortest path.
+
