@@ -1,0 +1,262 @@
+EXPERIMENT NO. 6
+
+AIM
+
+To create/build a neural network using a basic programming language, C.
+
+CODE
+
+PROGRAM: IMPLEMENTATION OF A NEURAL NETWORK FOR AND GATE USING C
+
+```c
+#include <stdio.h>
+
+int main()
+{
+    int input[4][2] = {
+        {0, 0},
+        {0, 1},
+        {1, 0},
+        {1, 1}
+    };
+
+    int target[4] = {0, 0, 0, 1};
+
+    float w1 = 0.0;
+    float w2 = 0.0;
+    float bias = 0.0;
+
+    float learning_rate = 0.1;
+    int epochs = 10;
+
+    for (int epoch = 0; epoch < epochs; epoch++)
+    {
+        printf("Epoch %d\n", epoch + 1);
+
+        for (int i = 0; i < 4; i++)
+        {
+            float sum = (input[i][0] * w1) +
+                        (input[i][1] * w2) + bias;
+
+            int output;
+
+            if (sum >= 1.0)
+                output = 1;
+            else
+                output = 0;
+
+            int error = target[i] - output;
+
+            w1 = w1 + learning_rate * error * input[i][0];
+            w2 = w2 + learning_rate * error * input[i][1];
+            bias = bias + learning_rate * error;
+
+            printf("Input: %d %d | Target: %d | Output: %d | Error: %d\n",
+                   input[i][0],
+                   input[i][1],
+                   target[i],
+                   output,
+                   error);
+
+            printf("\n");
+        }
+
+        printf("w1 = %.2f\n", w1);
+        printf("w2 = %.2f\n", w2);
+        printf("bias = %.2f\n", bias);
+    }
+
+    printf("Final AND Gate Results:\n");
+
+    for (int i = 0; i < 4; i++)
+    {
+        float sum = (input[i][0] * w1) +
+                    (input[i][1] * w2) + bias;
+
+        int output;
+
+        if (sum >= 1.0)
+            output = 1;
+        else
+            output = 0;
+
+        printf("%d AND %d = %d\n",
+               input[i][0],
+               input[i][1],
+               output);
+    }
+
+    printf("\nFinal weights:\n");
+    printf("w1 = %.2f\n", w1);
+    printf("w2 = %.2f\n", w2);
+    printf("bias = %.2f\n", bias);
+
+    return 0;
+}
+```
+
+THEORY
+
+1. INTRODUCTION TO NEURAL NETWORKS
+
+A neural network is a computational model inspired by the structure and functioning of the human brain. It consists of interconnected processing units called neurons that receive inputs, perform calculations, and generate outputs.
+
+Neural networks are widely used in Artificial Intelligence and Machine Learning for tasks such as classification, prediction, pattern recognition, and image processing.
+
+A basic artificial neuron receives input values, multiplies them by weights, adds a bias, and applies an activation function to produce an output.
+
+The main components of a neural network are:
+
+* Input: The data supplied to the network.
+* Weights: Values that determine the importance of individual inputs.
+* Bias: An additional value that adjusts the weighted sum.
+* Activation Function: Determines the output of the neuron.
+* Output: The final result produced by the neuron.
+* Learning Rate: Controls how much the weights and bias change during training.
+
+2. ARTIFICIAL NEURON
+
+An artificial neuron is the basic building block of a neural network. It processes input values using weights, bias, and an activation function.
+
+The weighted sum is calculated using the formula:
+
+SUM = (x1 × w1) + (x2 × w2) + bias
+
+Where:
+
+* x1 and x2 are the input values.
+* w1 and w2 are the corresponding weights.
+* Bias is an additional adjustable parameter.
+* SUM is the weighted sum of the inputs.
+
+In this experiment, the neuron uses a threshold activation function.
+
+Activation Function:
+
+If SUM >= 1.0, output = 1.
+
+If SUM < 1.0, output = 0.
+
+This function converts the calculated weighted sum into a binary output.
+
+3. PERCEPTRON LEARNING ALGORITHM
+
+A perceptron is a simple artificial neuron used for binary classification. It learns by adjusting its weights and bias based on the difference between the expected output and the predicted output.
+
+The perceptron learning algorithm follows these steps:
+
+1. Initialize the weights and bias to zero.
+2. Provide the input values to the neuron.
+3. Calculate the weighted sum using the inputs, weights, and bias.
+4. Apply the activation function to obtain the predicted output.
+5. Calculate the error by subtracting the predicted output from the target output.
+6. Update the weights and bias using the learning rate and error.
+7. Repeat the process for all training examples.
+8. Continue training for the specified number of epochs.
+9. Test the trained neuron using the input combinations.
+
+The error is calculated using:
+
+ERROR = TARGET OUTPUT - PREDICTED OUTPUT
+
+The weight update equations are:
+
+w1 = w1 + learning_rate × error × x1
+
+w2 = w2 + learning_rate × error × x2
+
+bias = bias + learning_rate × error
+
+These equations adjust the parameters according to the prediction error.
+
+4. AND GATE USING A NEURAL NETWORK
+
+An AND gate is a fundamental logical operation that produces an output of 1 only when both inputs are 1. For all other input combinations, the output is 0.
+
+The truth table for the AND gate is:
+
+Input 1 | Input 2 | Output
+
+0 | 0 | 0
+
+0 | 1 | 0
+
+1 | 0 | 0
+
+1 | 1 | 1
+
+In this experiment, the AND gate is implemented using a single artificial neuron.
+
+The input array stores all four possible combinations of two binary inputs:
+
+{0, 0}, {0, 1}, {1, 0}, {1, 1}
+
+The target array stores the expected outputs:
+
+{0, 0, 0, 1}
+
+The neuron learns by comparing its predicted outputs with the target outputs and adjusting its weights and bias.
+
+5. EXPLANATION OF THE PROGRAM
+
+The program begins by including the standard input-output library, which allows the use of printf() to display results.
+
+The input array contains four combinations of binary inputs, while the target array stores the corresponding AND gate outputs.
+
+Initially, both weights and the bias are set to 0.0. The learning rate is set to 0.1, and the number of training epochs is set to 10.
+
+During training, the program processes each input combination and calculates the weighted sum.
+
+The activation function determines whether the output is 0 or 1. The program then calculates the error by comparing the predicted output with the expected output.
+
+The weights and bias are updated using the perceptron learning equations.
+
+This process repeats for every training example across all epochs. The program displays the input values, target output, predicted output, error, weights, and bias.
+
+After training, the program tests all four input combinations again and displays the final AND gate results along with the final weights and bias.
+
+6. IMPORTANT PARAMETERS
+
+Weights (w1 and w2):
+
+Weights determine the influence of each input on the neuron's output. They are adjusted during training to reduce prediction errors.
+
+Bias:
+
+Bias is an additional parameter added to the weighted sum. It helps adjust the neuron's decision boundary.
+
+Learning Rate:
+
+The learning rate determines the size of each parameter update. In this program, its value is 0.1.
+
+Epoch:
+
+An epoch represents one complete pass through all training examples. The program performs 10 epochs.
+
+Error:
+
+Error is the difference between the target output and the predicted output. It is used to update the weights and bias.
+
+Activation Function:
+
+The threshold activation function converts the weighted sum into a binary output based on the specified threshold of 1.0.
+
+7. ADVANTAGES AND LIMITATIONS
+
+Advantages:
+
+* Demonstrates the basic working of an artificial neuron.
+* Shows how weights and bias are updated during learning.
+* Uses a simple algorithm that is easy to understand and implement.
+* Demonstrates the application of neural networks to binary classification.
+
+Limitations:
+
+* A single perceptron can solve linearly separable problems but cannot learn non-linearly separable functions such as XOR.
+* The performance depends on the learning rate and activation threshold.
+* The given training parameters do not guarantee correct AND gate predictions after 10 epochs.
+* A single neuron is limited compared with a multilayer neural network.
+
+CONCLUSION
+
+Thus, a basic artificial neuron was implemented in C to demonstrate the learning process for an AND gate. The program uses input values, weights, bias, a threshold activation function, and the perceptron learning algorithm to calculate outputs and update parameters over multiple epochs. The final results can be examined to understand how the neuron learns from the training data.
