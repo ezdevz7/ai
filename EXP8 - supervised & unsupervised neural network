@@ -1,0 +1,328 @@
+EXPERIMENT NO. 8
+
+AIM
+
+To implement basic supervised and unsupervised neural network learning rules for a problem.
+
+CODE
+
+PROGRAM 1: DELTA LEARNING RULE FOR AND GATE
+
+```python
+import numpy as np
+
+X = np.array([
+    [0, 0],
+    [0, 1],
+    [1, 0],
+    [1, 1]
+])
+
+T = np.array([0, 0, 0, 1])
+
+eta = 0.1
+
+weights = np.zeros(2)
+bias = 0
+
+epochs = 20
+
+for epoch in range(epochs):
+    total_error = 0
+
+    for x, t in zip(X, T):
+        y = np.dot(weights, x) + bias
+        error = t - y
+
+        weights = weights + eta * error * x
+        bias = bias + eta * error
+
+        total_error += error ** 2
+
+    print(f"Epoch {epoch + 1}: MSE = {total_error / len(X):.4f}")
+
+print("\nFinal Weights:", weights)
+print("Final Bias:", bias)
+
+print("\nPredictions:")
+
+for x in X:
+    y = np.dot(weights, x) + bias
+    print(x, "->", round(y, 3))
+```
+
+PROGRAM 2: HEBBIAN LEARNING RULE FOR OR GATE
+
+```python
+import numpy as np
+
+X = np.array([
+    [-1, -1],
+    [-1, 1],
+    [1, -1],
+    [1, 1]
+])
+
+T = np.array([-1, 1, 1, 1])
+
+eta = 1
+
+weights = np.zeros(2)
+bias = 0
+
+print("Initial Weights:", weights)
+print("Initial Bias:", bias)
+
+for x, t in zip(X, T):
+    net = np.dot(weights, x) + bias
+
+    if net >= 0:
+        y = 1
+    else:
+        y = -1
+
+    weights = weights + eta * x * t
+    bias = bias + eta * t
+
+    print("\nInput:", x)
+    print("Target:", t)
+    print("Output:", y)
+    print("Updated Weights:", weights)
+    print("Updated Bias:", bias)
+
+print("\nFinal Weights:", weights)
+print("Final Bias:", bias)
+
+print("\nTesting:")
+
+for x in X:
+    net = np.dot(weights, x) + bias
+
+    if net >= 0:
+        y = 1
+    else:
+        y = -1
+
+    print(x, "->", y)
+```
+
+THEORY
+
+1. INTRODUCTION TO NEURAL NETWORK LEARNING
+
+Neural network learning is the process by which an artificial neural network adjusts its weights and bias to produce appropriate outputs for given inputs. Learning rules determine how these parameters change during training.
+
+Neural networks use different learning methods depending on the availability of target outputs and the objective of the problem.
+
+The two main learning approaches demonstrated in this experiment are:
+
+* Supervised Learning: The network learns from input patterns paired with known target outputs.
+* Unsupervised Learning: The network learns patterns or relationships from input data without requiring explicit target outputs in the usual supervised-learning sense.
+
+The Delta Learning Rule is a supervised learning method, while the Hebbian Learning Rule is a basic learning method based on the relationship between neuron inputs and outputs.
+
+2. DELTA LEARNING RULE
+
+The Delta Learning Rule is a supervised learning technique used to adjust weights and bias by calculating the difference between the target output and the actual output.
+
+It attempts to reduce the prediction error by updating the network parameters after processing each training example.
+
+The rule is demonstrated using an AND gate with binary inputs.
+
+The main steps are:
+
+1. Initialize weights and bias to zero.
+2. Provide an input pattern and its target output.
+3. Calculate the actual output using the weighted sum.
+4. Calculate the error between the target and actual output.
+5. Update weights and bias using the learning rate.
+6. Repeat the process for all training patterns over multiple epochs.
+7. Calculate the mean squared error to monitor training.
+
+The weighted sum is calculated as:
+
+y = w1x1 + w2x2 + b
+
+Where:
+
+* x1 and x2 are the input values.
+* w1 and w2 are the weights.
+* b is the bias.
+* y is the actual output.
+
+Error calculation:
+
+e = t - y
+
+Where t is the target output and y is the actual output.
+
+Weight update rule:
+
+wi = wi + η × e × xi
+
+Bias update rule:
+
+b = b + η × e
+
+Here, η represents the learning rate, which controls the size of each update.
+
+3. DELTA LEARNING RULE FOR AND GATE
+
+The AND gate produces an output of 1 only when both inputs are 1. For all other input combinations, the output is 0.
+
+The training patterns are:
+
+Input [0, 0] → Target 0
+
+Input [0, 1] → Target 0
+
+Input [1, 0] → Target 0
+
+Input [1, 1] → Target 1
+
+The program uses NumPy to store the input patterns and target outputs.
+
+The weights and bias are initialized to zero, and the learning rate is set to 0.1. Training is performed for 20 epochs.
+
+For each input pattern, the program calculates the actual output, determines the error, and updates the weights and bias.
+
+The squared errors are accumulated during each epoch. The Mean Squared Error (MSE) is calculated by dividing the total squared error by the number of training examples.
+
+MSE = Sum of Squared Errors / Number of Samples
+
+A decreasing MSE generally indicates that the network's predictions are approaching the target outputs.
+
+The final weights, bias, and predicted outputs are displayed after training.
+
+Important note: This program uses a linear output without a threshold activation function. Therefore, the final predictions are numerical values and may not be exactly 0 or 1.
+
+4. HEBBIAN LEARNING RULE
+
+The Hebbian Learning Rule is a learning method based on the principle that connections between neurons become stronger when their activities occur together.
+
+It is commonly summarized as:
+
+"Neurons that fire together, wire together."
+
+The rule adjusts weights according to the relationship between the input values and the target or associated neuron activity.
+
+The weight update equation is:
+
+wi = wi + η × xi × t
+
+The bias update equation used in this practical is:
+
+b = b + η × t
+
+Where:
+
+* wi is the weight associated with an input.
+* η is the learning rate.
+* xi is the input value.
+* t is the target output.
+* b is the bias.
+
+Unlike the Delta Learning Rule, the basic Hebbian rule does not calculate the error between the target and predicted output to update weights.
+
+In this experiment, Hebbian learning is demonstrated using bipolar input patterns for an OR gate.
+
+5. HEBBIAN LEARNING RULE FOR OR GATE
+
+The OR gate produces an output of 1 when at least one input is 1. It produces 0 only when both inputs are 0.
+
+The practical uses bipolar values instead of ordinary binary values.
+
+The bipolar representation is:
+
+Binary 0 = -1
+
+Binary 1 = +1
+
+The input patterns are:
+
+Input [-1, -1] → Target -1
+
+Input [-1, 1] → Target +1
+
+Input [1, -1] → Target +1
+
+Input [1, 1] → Target +1
+
+The program initializes the weights and bias to zero and sets the learning rate to 1.
+
+For every input pattern, it calculates the net input:
+
+net = w1x1 + w2x2 + b
+
+The output is determined using a threshold function:
+
+If net >= 0, output = +1.
+
+If net < 0, output = -1.
+
+The weights are updated using the Hebbian Learning Rule, and the bias is adjusted using the target value.
+
+The program displays the input, target, predicted output, updated weights, and updated bias after processing each training pattern.
+
+After training, the network is tested using all four input patterns.
+
+6. DIFFERENCE BETWEEN DELTA AND HEBBIAN LEARNING
+
+Delta Learning Rule:
+
+* Uses supervised learning.
+* Calculates the error between target and actual output.
+* Updates weights to reduce prediction error.
+* Uses the learning rate to control parameter updates.
+* Is demonstrated using the AND gate in this experiment.
+
+Hebbian Learning Rule:
+
+* Uses an association-based learning principle.
+* Updates weights using the relationship between inputs and target activity.
+* Does not require error calculation in its basic form.
+* Strengthens or changes connections based on co-activation.
+* Is demonstrated using the bipolar OR gate in this experiment.
+
+7. EXPLANATION OF THE PROGRAM
+
+PROGRAM 1: DELTA LEARNING
+
+The first program imports NumPy and defines four input patterns for the AND gate. The target array contains the expected outputs.
+
+The weights and bias are initialized to zero. The learning rate is set to 0.1, and training runs for 20 epochs.
+
+During each epoch, the program calculates the weighted sum for every training pattern. It then calculates the error and updates the weights and bias.
+
+The squared errors are accumulated to calculate MSE. After training, the program displays the final weights, bias, and predicted outputs.
+
+PROGRAM 2: HEBBIAN LEARNING
+
+The second program defines bipolar input patterns and target outputs for the OR gate.
+
+The weights and bias are initialized to zero, and the learning rate is set to 1.
+
+For each pattern, the program calculates the net input and determines the output using a threshold function. It then updates the weights and bias using the Hebbian Learning Rule.
+
+The updated values are displayed after each training pattern. Finally, the trained network is tested on all four bipolar input patterns, and the resulting outputs are displayed.
+
+8. ADVANTAGES AND LIMITATIONS
+
+Advantages:
+
+* Demonstrates two different neural network learning rules.
+* Delta learning uses error information to adjust weights.
+* Hebbian learning demonstrates associative learning.
+* The programs are simple to implement using NumPy.
+* Shows how weights and bias change during training.
+
+Limitations:
+
+* The Delta Learning Rule program uses a linear output, so predictions may not exactly match binary AND outputs.
+* The basic Hebbian Learning Rule does not directly minimize prediction error.
+* The results depend on the learning rate, input representation, and update procedure.
+* Basic learning rules are limited compared with modern multilayer neural networks.
+
+CONCLUSION
+
+Thus, the Delta Learning Rule and Hebbian Learning Rule were implemented using Python and NumPy. The Delta Learning Rule demonstrates supervised learning by updating weights and bias according to prediction error for an AND gate. The Hebbian Learning Rule demonstrates association-based learning using bipolar input patterns for an OR gate. Both programs illustrate how different learning rules modify neural network parameters to process input patterns.
