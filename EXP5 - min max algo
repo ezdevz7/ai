@@ -1,0 +1,198 @@
+EXPERIMENT NO. 5
+
+AIM
+
+To implement adversarial search using the Min-Max (Minimax) algorithm.
+
+CODE
+
+PROGRAM: IMPLEMENTATION OF MINIMAX ALGORITHM
+
+```python
+import math
+
+def minimax(depth, node_index, is_max, scores, height):
+    if depth == height:
+        return scores[node_index]
+
+    if is_max:
+        return max(
+            minimax(depth + 1, node_index * 2, False, scores, height),
+            minimax(depth + 1, node_index * 2 + 1, False, scores, height)
+        )
+    else:
+        return min(
+            minimax(depth + 1, node_index * 2, True, scores, height),
+            minimax(depth + 1, node_index * 2 + 1, True, scores, height)
+        )
+
+scores = [3, 5, 6, 9, 1, 2, 0, -1]
+
+height = int(math.log2(len(scores)))
+
+best_score = minimax(0, 0, True, scores, height)
+
+print("The optimal value is:", best_score)
+```
+
+THEORY
+
+1. ADVERSARIAL SEARCH
+
+Adversarial search is a search technique used in Artificial Intelligence to make decisions in competitive environments where two or more players have opposing objectives. It is commonly used in games such as chess, tic-tac-toe, checkers, and other strategy-based games.
+
+In adversarial search, one player attempts to maximize the score or benefit, while the opponent attempts to minimize it. The algorithm considers possible moves and their outcomes to determine the best decision.
+
+A game tree represents the different possible moves and resulting states of a game. Each node represents a game state, and the branches represent the possible moves. The leaf nodes contain scores representing the outcomes of the game or an evaluation of the resulting states.
+
+2. MINIMAX ALGORITHM
+
+The Minimax algorithm is a decision-making algorithm used in two-player, zero-sum games. It assumes that both players make optimal decisions.
+
+The two players are:
+
+Maximizer:
+The Maximizer attempts to obtain the highest possible score. It selects the maximum value among its child nodes.
+
+Minimizer:
+The Minimizer attempts to obtain the lowest possible score for the Maximizer. It selects the minimum value among its child nodes.
+
+The algorithm evaluates the game tree from the leaf nodes toward the root. It alternates between Maximizer and Minimizer levels until the optimal value at the root node is determined.
+
+3. WORKING OF THE MINIMAX ALGORITHM
+
+The Minimax algorithm works as follows:
+
+1. Construct a game tree containing the possible moves and outcomes.
+2. Assign scores to the leaf nodes.
+3. At the Maximizer's level, select the maximum value from the child nodes.
+4. At the Minimizer's level, select the minimum value from the child nodes.
+5. Continue evaluating the tree upward, alternating between Maximizer and Minimizer levels.
+6. When the root node is reached, return its value as the optimal score for the Maximizer.
+
+The algorithm uses recursion to evaluate the game tree until the leaf nodes are reached.
+
+4. IMPORTANT COMPONENTS
+
+Game Tree:
+A tree structure representing the possible states and moves in a game.
+
+Leaf Nodes:
+The terminal nodes containing the scores or evaluation values of the possible outcomes.
+
+Depth:
+The current level of the game tree being evaluated.
+
+Node Index:
+The index used to identify a node in the binary game tree.
+
+Maximizer:
+The player who selects the maximum value from the available child nodes.
+
+Minimizer:
+The player who selects the minimum value from the available child nodes.
+
+Recursion:
+A programming technique in which a function calls itself to solve smaller parts of a problem.
+
+Base Case:
+The stopping condition of the recursive function. In this program, when the current depth equals the tree height, the corresponding leaf score is returned.
+
+5. EXPLANATION OF THE PROGRAM
+
+The program begins by importing the math module, which is used to calculate the height of the game tree.
+
+The leaf scores are defined as:
+
+scores = [3, 5, 6, 9, 1, 2, 0, -1]
+
+Since there are eight leaf nodes, the height of the binary game tree is calculated using:
+
+height = log2(8) = 3
+
+The minimax() function accepts five parameters:
+
+* depth: The current depth of the tree.
+* node_index: The index of the current node.
+* is_max: Indicates whether the current player is the Maximizer.
+* scores: The list containing the leaf-node scores.
+* height: The total height of the game tree.
+
+When the current depth reaches the tree height, the function returns the corresponding leaf score.
+
+If is_max is True, the function evaluates the two child nodes and returns the maximum value.
+
+If is_max is False, the function evaluates the two child nodes and returns the minimum value.
+
+The function calls itself recursively until the complete game tree has been evaluated. Finally, the optimal value is printed.
+
+6. EVALUATION OF THE GAME TREE
+
+Given leaf scores:
+
+3, 5, 6, 9, 1, 2, 0, -1
+
+LEVEL 3 — LEAF NODES
+
+The leaf nodes contain the following scores:
+
+3, 5, 6, 9, 1, 2, 0, -1
+
+LEVEL 2 — MAXIMIZER
+
+The Maximizer selects the maximum value from each pair:
+
+max(3, 5) = 5
+
+max(6, 9) = 9
+
+max(1, 2) = 2
+
+max(0, -1) = 0
+
+The resulting values are:
+
+5, 9, 2, 0
+
+LEVEL 1 — MINIMIZER
+
+The Minimizer selects the minimum value from each pair:
+
+min(5, 9) = 5
+
+min(2, 0) = 0
+
+The resulting values are:
+
+5, 0
+
+LEVEL 0 — MAXIMIZER
+
+The root node selects the maximum value:
+
+max(5, 0) = 5
+
+Therefore, the optimal value is 5.
+
+OUTPUT
+
+The optimal value is: 5
+
+7. ADVANTAGES AND LIMITATIONS
+
+Advantages:
+
+* Helps select optimal moves in competitive games.
+* Considers the opponent's possible decisions.
+* Provides an optimal decision when both players play optimally and the game tree is evaluated correctly.
+* Uses recursion to evaluate different possible outcomes.
+
+Limitations:
+
+* Can require significant computation for large game trees.
+* Performance decreases as the number of possible moves increases.
+* May require optimization techniques such as Alpha-Beta Pruning to avoid evaluating unnecessary branches.
+
+CONCLUSION
+
+Thus, the Minimax algorithm was implemented successfully to perform adversarial search on a game tree. The algorithm evaluates leaf-node scores by alternating between Maximizer and Minimizer levels to determine the optimal value. For the given leaf scores [3, 5, 6, 9, 1, 2, 0, -1], the optimal value obtained is 5.
