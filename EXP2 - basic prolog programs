@@ -1,0 +1,99 @@
+EXPERIMENT NO. 2
+
+AIM
+
+To write and execute basic programs in PROLOG.
+
+CODE
+
+PROGRAM 1: FIND MAXIMUM AND MINIMUM OF TWO NUMBERS
+
+find_max(X, Y, X) :- X >= Y, !.
+find_max(X, Y, Y) :- X < Y.
+
+find_min(X, Y, X) :- X =< Y, !.
+find_min(X, Y, Y) :- X > Y.
+
+Queries:
+?- find_max(100, 200, Max).
+?- find_min(100, 200, Min).
+
+PROGRAM 2: CALCULATE THE AREA OF A RECTANGLE
+
+area_rectangle(Length, Breadth, Area) :-
+Area is Length * Breadth.
+
+Query:
+?- area_rectangle(5, 8, Area).
+
+PROGRAM 3: CONVERT CELSIUS TO FAHRENHEIT
+
+celsius_to_fahrenheit(C, F) :-
+F is C * 9 / 5 + 32.
+
+Query:
+?- celsius_to_fahrenheit(25, F).
+
+PROGRAM 4: CALCULATE THE FACTORIAL OF A NUMBER
+
+factorial(0, 1).
+
+factorial(N, Result) :-
+N > 0,
+N_minus_1 is N - 1,
+factorial(N_minus_1, SubResult),
+Result is N * SubResult.
+
+Query:
+?- factorial(5, F).
+
+PROGRAM 5: IDENTIFY FRIENDS USING FACTS AND RULES
+
+% Facts
+likes(john, pizza).
+likes(mary, pizza).
+likes(rahul, burger).
+
+% Rule
+friends(X, Y) :-
+likes(X, pizza),
+likes(Y, pizza),
+X = Y.
+
+Query:
+?- friends(john, mary).
+
+THEORY
+
+PROLOG stands for PROgramming in LOGic. It is a declarative programming language based on formal logic and is widely used in Artificial Intelligence (AI), expert systems, natural language processing, and knowledge-based systems.
+
+Unlike procedural programming languages such as C, Java, and Python, which describe how to solve a problem step by step, Prolog describes facts and relationships. The Prolog system uses logical reasoning to find solutions to queries.
+
+The main components of Prolog are:
+
+1. Facts:
+   Facts represent information considered true in a program. For example, likes(john, pizza) states that John likes pizza.
+
+2. Rules:
+   Rules define relationships based on conditions. The symbol :- means "if". For example, a person can be considered a friend of another person if both satisfy the conditions specified in the rule.
+
+3. Queries:
+   Queries are questions asked to the Prolog system. They are used to check whether a statement is true or to find values satisfying a particular condition.
+
+4. Recursion:
+   Recursion occurs when a predicate calls itself. In the factorial program, factorial(N, Result) calculates the factorial by repeatedly reducing N until it reaches the base case factorial(0, 1).
+
+5. Arithmetic Operations:
+   Prolog supports arithmetic calculations using operators such as +, -, *, and /. The is operator evaluates an arithmetic expression and assigns its result to a variable.
+
+6. Logical Reasoning:
+   Prolog matches queries with facts and rules to determine whether a solution exists. It uses unification to match terms and backtracking to explore alternative solutions when necessary.
+
+7. Cut Operator:
+   The cut operator (!) prevents Prolog from reconsidering certain alternatives after the cut is reached. In the maximum and minimum programs, it commits to the first matching rule.
+
+In this experiment, Prolog is used to compare numbers, calculate the area of a rectangle, convert temperature from Celsius to Fahrenheit, calculate factorial using recursion, and identify relationships using facts and rules.
+
+CONCLUSION
+
+Thus, basic programs were successfully designed using Prolog to perform arithmetic calculations, compare numbers, calculate factorials, and establish relationships through facts and rules. The experiment demonstrates the use of declarative programming, logical reasoning, and recursion in Prolog.
