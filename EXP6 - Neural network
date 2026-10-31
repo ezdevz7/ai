@@ -8,7 +8,7 @@ CODE
 
 PROGRAM: IMPLEMENTATION OF A NEURAL NETWORK FOR AND GATE USING C
 
-```c
+
 #include <stdio.h>
 
 int main()
@@ -93,7 +93,7 @@ int main()
 
     return 0;
 }
-```
+
 
 THEORY
 
