@@ -172,6 +172,13 @@ else:
     print("No solution found.")
 
 
+
+
+
+
+
+
+
 # Initial state
 
 start = [
