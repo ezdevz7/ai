@@ -9,34 +9,33 @@ CODE
 1. DEPTH-FIRST SEARCH (DFS)
 
 def dfs(graph, start, goal):
-stack = [[start]]
-visited = set()
+    stack = [[start]]
+    visited = set()
 
-```
-while stack:
-    path = stack.pop()
-    node = path[-1]
+    while stack:
+        path = stack.pop()
+        node = path[-1]
 
-    if node == goal:
-        return path
+        if node == goal:
+            return path
 
-    if node not in visited:
-        visited.add(node)
+        if node not in visited:
+            visited.add(node)
 
-        for neighbor in reversed(graph.get(node, [])):
-            if neighbor not in visited:
-                stack.append(path + [neighbor])
+            for neighbor in reversed(graph.get(node, [])):
+                if neighbor not in visited:
+                    stack.append(path + [neighbor])
 
-return None
-```
+    return None
+
 
 graph = {
-'A': ['B', 'C'],
-'B': ['D', 'E'],
-'C': ['F'],
-'D': [],
-'E': ['F'],
-'F': []
+    'A': ['B', 'C'],
+    'B': ['D', 'E'],
+    'C': ['F'],
+    'D': [],
+    'E': ['F'],
+    'F': []
 }
 
 start_node_dfs = 'A'
@@ -45,41 +44,41 @@ goal_node_dfs = 'F'
 path_dfs = dfs(graph, start_node_dfs, goal_node_dfs)
 
 if path_dfs:
-print(f"Path from {start_node_dfs} to {goal_node_dfs} (DFS): {path_dfs}")
+    print(f"Path from {start_node_dfs} to {goal_node_dfs} (DFS): {path_dfs}")
 else:
-print(f"No path found from {start_node_dfs} to {goal_node_dfs} (DFS).")
+    print(f"No path found from {start_node_dfs} to {goal_node_dfs} (DFS).")
+
 
 2. BREADTH-FIRST SEARCH (BFS)
 
 from collections import deque
 
 def bfs(graph, start, goal):
-queue = deque([[start]])
-visited = set([start])
+    queue = deque([[start]])
+    visited = set([start])
 
-```
-while queue:
-    path = queue.popleft()
-    node = path[-1]
+    while queue:
+        path = queue.popleft()
+        node = path[-1]
 
-    if node == goal:
-        return path
+        if node == goal:
+            return path
 
-    for neighbor in graph.get(node, []):
-        if neighbor not in visited:
-            visited.add(neighbor)
-            queue.append(path + [neighbor])
+        for neighbor in graph.get(node, []):
+            if neighbor not in visited:
+                visited.add(neighbor)
+                queue.append(path + [neighbor])
 
-return None
-```
+    return None
+
 
 graph = {
-'A': ['B', 'C'],
-'B': ['D', 'E'],
-'C': ['F'],
-'D': [],
-'E': ['F'],
-'F': []
+    'A': ['B', 'C'],
+    'B': ['D', 'E'],
+    'C': ['F'],
+    'D': [],
+    'E': ['F'],
+    'F': []
 }
 
 start_node = 'A'
@@ -88,9 +87,13 @@ goal_node = 'F'
 path = bfs(graph, start_node, goal_node)
 
 if path:
-print(f"Shortest path from {start_node} to {goal_node}: {path}")
+    print(f"Shortest path from {start_node} to {goal_node}: {path}")
 else:
-print(f"No path found from {start_node} to {goal_node}.")
+    print(f"No path found from {start_node} to {goal_node}.")
+
+
+
+
 
 
               A
