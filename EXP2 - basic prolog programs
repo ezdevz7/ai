@@ -14,25 +14,38 @@ find_max(X, Y, Y) :- X < Y.
 find_min(X, Y, X) :- X =< Y, !.
 find_min(X, Y, Y) :- X > Y.
 
-Queries:
-?- find_max(100, 200, Max).
-?- find_min(100, 200, Min).
+:- initialization(main).
+
+main :-
+find_max(100, 200, Max),
+write('Maximum = '), write(Max), nl,
+find_min(100, 200, Min),
+write('Minimum = '), write(Min), nl,
+halt.
 
 PROGRAM 2: CALCULATE THE AREA OF A RECTANGLE
 
 area_rectangle(Length, Breadth, Area) :-
 Area is Length * Breadth.
 
-Query:
-?- area_rectangle(5, 8, Area).
+:- initialization(main).
+
+main :-
+area_rectangle(5, 8, Area),
+write('Area of Rectangle = '), write(Area), nl,
+halt.
 
 PROGRAM 3: CONVERT CELSIUS TO FAHRENHEIT
 
 celsius_to_fahrenheit(C, F) :-
 F is C * 9 / 5 + 32.
 
-Query:
-?- celsius_to_fahrenheit(25, F).
+:- initialization(main).
+
+main :-
+celsius_to_fahrenheit(25, F),
+write('Temperature in Fahrenheit = '), write(F), nl,
+halt.
 
 PROGRAM 4: CALCULATE THE FACTORIAL OF A NUMBER
 
@@ -44,24 +57,35 @@ N_minus_1 is N - 1,
 factorial(N_minus_1, SubResult),
 Result is N * SubResult.
 
-Query:
-?- factorial(5, F).
+:- initialization(main).
+
+main :-
+factorial(5, F),
+write('Factorial = '), write(F), nl,
+halt.
 
 PROGRAM 5: IDENTIFY FRIENDS USING FACTS AND RULES
 
-% Facts
 likes(john, pizza).
 likes(mary, pizza).
 likes(rahul, burger).
 
-% Rule
 friends(X, Y) :-
 likes(X, pizza),
 likes(Y, pizza),
 X = Y.
 
-Query:
-?- friends(john, mary).
+:- initialization(main).
+
+main :-
+(friends(john, mary) ->
+write('John and Mary are friends.')
+;
+write('John and Mary are not friends.')
+),
+nl,
+halt.
+
 
 THEORY
 
