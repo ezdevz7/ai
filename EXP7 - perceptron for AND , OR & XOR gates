@@ -8,7 +8,7 @@ CODE
 
 PROGRAM: IMPLEMENTATION OF PERCEPTRON FOR AND, OR, AND XOR GATES
 
-```python
+
 import numpy as np
 
 def train_perceptron(X, y, epochs=10, learning_rate=0.1):
@@ -69,7 +69,7 @@ print("\nXOR Gate")
 print("Weights:", w_xor)
 print("Bias:", b_xor)
 print("Output:", test_perceptron(X, w_xor, b_xor))
-```
+
 
 THEORY
 
@@ -137,6 +137,85 @@ Bias update formula:
 b = b + learning_rate × error
 
 These updates help the perceptron improve its predictions for linearly separable problems.
+
+NUMERICAL: PERCEPTRON LEARNING ALGORITHM FOR AND GATE
+
+Given:
+Input patterns: (0,0), (0,1), (1,0), (1,1)
+Target outputs: 0, 0, 0, 1
+Initial weights: w1 = 0, w2 = 0
+Initial bias: b = 0
+Learning rate: α = 0.1
+Epochs: 10
+
+FORMULAS:
+
+1. Net input:
+   z = x1*w1 + x2*w2 + b
+
+2. Activation function:
+   If z >= 0, prediction = 1
+   If z < 0, prediction = 0
+
+3. Error:
+   e = Target - Prediction
+
+4. Weight update:
+   w1 = w1 + α*e*x1
+   w2 = w2 + α*e*x2
+
+5. Bias update:
+   b = b + α*e
+
+EPOCH 1:
+
+Input (0,0):
+z = (0*0) + (0*0) + 0 = 0
+Prediction = 1
+Error = 0 - 1 = -1
+w1 = 0 + 0.1*(-1)*0 = 0
+w2 = 0 + 0.1*(-1)*0 = 0
+b = 0 + 0.1*(-1) = -0.1
+
+Input (0,1):
+z = (0*0) + (1*0) - 0.1 = -0.1
+Prediction = 0
+Error = 0 - 0 = 0
+Weights and bias remain unchanged.
+
+Input (1,0):
+z = (1*0) + (0*0) - 0.1 = -0.1
+Prediction = 0
+Error = 0 - 0 = 0
+Weights and bias remain unchanged.
+
+Input (1,1):
+z = (1*0) + (1*0) - 0.1 = -0.1
+Prediction = 0
+Error = 1 - 0 = 1
+w1 = 0 + 0.1*1*1 = 0.1
+w2 = 0 + 0.1*1*1 = 0.1
+b = -0.1 + 0.1*1 = 0
+
+RESULT AFTER EPOCH 1:
+w1 = 0.1, w2 = 0.1, b = 0
+
+Repeat the same process for 10 epochs.
+
+FINAL RESULT AFTER 10 EPOCHS:
+
+Weights: w1 = 0.2, w2 = 0.1
+Bias: b = -0.2
+
+FINAL OUTPUT:
+
+Input (0,0) -> 0
+Input (0,1) -> 0
+Input (1,0) -> 0
+Input (1,1) -> 1
+
+Therefore, the perceptron successfully learns the AND gate.
+
 
 4. IMPLEMENTATION OF LOGIC GATES
 
