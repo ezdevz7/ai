@@ -8,72 +8,76 @@ CODE
 
 PROGRAM 1: A* ALGORITHM FOR GRAPH SEARCH
 
+
 def heuristic(node):
-h = {
-'A': 11,
-'B': 6,
-'C': 99,
-'D': 1,
-'E': 7,
-'G': 0
-}
-return h.get(node, float('inf'))
+    h = {
+        'A': 11,
+        'B': 6,
+        'C': 99,
+        'D': 1,
+        'E': 7,
+        'G': 0
+    }
+    return h.get(node, float('inf'))
+
 
 graph = {
-'A': [('B', 2), ('E', 3)],
-'B': [('C', 1), ('G', 9)],
-'C': [],
-'E': [('D', 6)],
-'D': [('G', 1)],
-'G': []
+    'A': [('B', 2), ('E', 3)],
+    'B': [('C', 1), ('G', 9)],
+    'C': [],
+    'E': [('D', 6)],
+    'D': [('G', 1)],
+    'G': []
 }
 
+
 def astar(start, goal):
-open_set = {start}
-closed_set = set()
-g = {start: 0}
-parents = {start: None}
+    open_set = {start}
+    closed_set = set()
+    g = {start: 0}
+    parents = {start: None}
 
-```
-while open_set:
-    current = min(
-        open_set,
-        key=lambda x: g[x] + heuristic(x)
-    )
+    while open_set:
+        current = min(
+            open_set,
+            key=lambda x: g[x] + heuristic(x)
+        )
 
-    if current == goal:
-        path = []
+        if current == goal:
+            path = []
 
-        while current is not None:
-            path.append(current)
-            current = parents[current]
+            while current is not None:
+                path.append(current)
+                current = parents[current]
 
-        path.reverse()
+            path.reverse()
 
-        print("Shortest path:", path)
-        print("Total cost:", g[goal])
-        return
+            print("Shortest path:", path)
+            print("Total cost:", g[goal])
+            return
 
-    open_set.remove(current)
-    closed_set.add(current)
+        open_set.remove(current)
+        closed_set.add(current)
 
-    neighbors = graph.get(current, [])
+        neighbors = graph.get(current, [])
 
-    for neighbor, cost in neighbors:
-        if neighbor in closed_set:
-            continue
+        for neighbor, cost in neighbors:
+            if neighbor in closed_set:
+                continue
 
-        new_cost = g[current] + cost
+            new_cost = g[current] + cost
 
-        if neighbor not in open_set or new_cost < g.get(neighbor, float('inf')):
-            g[neighbor] = new_cost
-            parents[neighbor] = current
-            open_set.add(neighbor)
+            if neighbor not in open_set or new_cost < g.get(neighbor, float('inf')):
+                g[neighbor] = new_cost
+                parents[neighbor] = current
+                open_set.add(neighbor)
 
-print("No path found.")
-```
+    print("No path found.")
+
 
 astar('A', 'G')
+
+
 
 PROGRAM 2: A* ALGORITHM FOR THE 8-PUZZLE PROBLEM
 
