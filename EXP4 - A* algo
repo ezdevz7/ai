@@ -81,74 +81,96 @@ astar('A', 'G')
 
 PROGRAM 2: A* ALGORITHM FOR THE 8-PUZZLE PROBLEM
 
+
 def h(state, goal):
-# Calculate Manhattan distance
-distance = 0
+    distance = 0
 
-```
-for i in range(9):
-    if state[i] != 0:
-        j = goal.index(state[i])
+    for i in range(9):
+        if state[i] != 0:
+            j = goal.index(state[i])
+            distance += abs(i // 3 - j // 3)
+            distance += abs(i % 3 - j % 3)
 
-        distance += abs(i // 3 - j // 3)
-        distance += abs(i % 3 - j % 3)
+    return distance
 
-return distance
-```
 
 def get_neighbors(state):
-neighbors = []
+    neighbors = []
 
-```
-zero = state.index(0)
-row = zero // 3
-col = zero % 3
+    zero = state.index(0)
+    row = zero // 3
+    col = zero % 3
 
-moves = [(-1, 0), (1, 0), (0, -1), (0, 1)]
+    moves = [(-1, 0), (1, 0), (0, -1), (0, 1)]
 
-for dr, dc in moves:
-    r = row + dr
-    c = col + dc
+    for dr, dc in moves:
+        r = row + dr
+        c = col + dc
 
-    if 0 <= r < 3 and 0 <= c < 3:
-        new = state[:]
-        new_zero = r * 3 + c
+        if 0 <= r < 3 and 0 <= c < 3:
+            new = state[:]
+            new_zero = r * 3 + c
 
-        new[zero], new[new_zero] = new[new_zero], new[zero]
+            new[zero], new[new_zero] = new[new_zero], new[zero]
+            neighbors.append(new)
 
-        neighbors.append(new)
+    return neighbors
 
-return neighbors
-```
 
 def astar(start, goal):
-open_list = [(h(start, goal), 0, start, [start])]
-visited = []
+    open_list = [(h(start, goal), 0, start, [start])]
+    visited = []
 
-```
-while open_list:
-    open_list.sort()
-    f, g, state, path = open_list.pop(0)
+    while open_list:
+        open_list.sort()
+        f, g, state, path = open_list.pop(0)
 
-    if state == goal:
-        return path
+        if state == goal:
+            return path
 
-    if state in visited:
-        continue
+        if state in visited:
+            continue
 
-    visited.append(state)
+        visited.append(state)
 
-    for neighbor in get_neighbors(state):
-        if neighbor not in visited:
-            new_g = g + 1
-            new_f = new_g + h(neighbor, goal)
+        for neighbor in get_neighbors(state):
+            if neighbor not in visited:
+                new_g = g + 1
+                new_f = new_g + h(neighbor, goal)
 
-            open_list.append(
-                (new_f, new_g, neighbor, path + [neighbor])
-            )
+                open_list.append(
+                    (new_f, new_g, neighbor, path + [neighbor])
+                )
 
-return None
-```
+    return None
+
+
+start = [
+    1, 2, 3,
+    4, 0, 6,
+    7, 5, 8
+]
+
+goal = [
+    1, 2, 3,
+    4, 5, 6,
+    7, 8, 0
+]
+
+path = astar(start, goal)
+
+if path:
+    print("Solution found. Total moves:", len(path) - 1)
+    print()
+
+    for step in path:
+        print(step[0:3])
+        print(step[3:6])
+        print(step[6:9])
+        print()
+else:
+    print("No solution found.")
+
 
 # Initial state
 
